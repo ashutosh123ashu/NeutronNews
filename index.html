@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Neutron News</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-primary shadow">
+        <div class="container-fluid justify-content-center">
+            <a class="navbar-brand" href="#">
+                <img src="images/icon.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                <b> Neutron News</b>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="d-flex justify-content-center mb-3"><img src="images/icon.png" width="150px"></div>
+        <div class="col-12 d-flex justify-content-center">
+            <div class="input-group mb-3" style="width: 50%;transform: scale(1.3);">
+                <input type="text" class="form-control shadow" id="keyword" placeholder="What you looking for ?"
+                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-danger shadow" type="button" onclick="getNews()" id="button-addon2">Search</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="container posts">
+
+    </div>
+
+        
+    </div>
+    <!-- Api Key -> d2bc5cc221f14160a6e1f63d45bf6a52 -->
+
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+         
+        
+        
+        getNews();
+        function getNews(){   
+            $(".posts").text("");
+                keyword=$("#keyword").val();
+                if (keyword==''){
+                    keyword="latest";
+                }
+
+            var url = "https://newsapi.org/v2/everything?q="+keyword+"&apiKey=d2bc5cc221f14160a6e1f63d45bf6a52";
+        $.get(url, (response) => {
+            console.log(response.articles[0]);
+            for(i=0;i<response.articles.length; i++){
+               var html =`<div class="card m-3 shadow">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="${response.articles[i].urlToImage}" class="img-fluid rounded-start" alt="..."> 
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">${response.articles[i].title}</h5>
+                        <p class="card-text">${response.articles[i].description}</p>
+                        <p class="card-text"><small class="text-muted">${response.articles[i].publishedAt} | ${response.articles[i].source.name}  </small></p>
+                        <a href="${response.articles[i].url}" target="_blank" class="btn btn-primary">Read More</a>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>` ;
+
+        $(".posts").append(html);
+            }
+        });
+        }
+        
+    </script>
+
+</body>
+
+</html>
